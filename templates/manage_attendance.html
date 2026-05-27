@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-6xl mx-auto space-y-6">
+    <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg">
+        <form method="POST" class="flex flex-col lg:flex-row items-end gap-4">
+            <div class="w-full lg:w-1/4">
+                <label class="block text-xs font-semibold text-slate-400 mb-2">Select Class</label>
+                <select name="class_name" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white text-xs font-medium focus:outline-none focus:border-blue-500">
+                    <option value="BCA_1st_Year" {% if class_name == 'BCA_1st_Year' or class_name == 'BCA 1st Year' %}selected{% endif %}>BCA 1st Year</option>
+                    <option value="BCA_2nd_Year" {% if class_name == 'BCA_2nd_Year' or class_name == 'BCA 2nd Year' %}selected{% endif %}>BCA 2nd Year</option>
+                    <option value="BCA_3rd_Year" {% if class_name == 'BCA_3rd_Year' or class_name == 'BCA 3rd Year' %}selected{% endif %}>BCA 3rd Year</option>
+                    <option value="BCA_6th_Sem_A" {% if class_name == 'BCA_6th_Sem_A' or class_name == 'BCA 6th Sem A' %}selected{% endif %}>BCA 6th Sem A</option>
+                </select>
+            </div>
+            <div class="w-full lg:w-1/4">
+                <label class="block text-xs font-semibold text-slate-400 mb-2">Select Subject</label>
+                <select name="subject" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white text-xs font-medium focus:outline-none focus:border-blue-500">
+                    <option value="Python" {% if subject == 'Python' %}selected{% endif %}>Python</option>
+                    <option value="DBMS" {% if subject == 'DBMS' %}selected{% endif %}>DBMS</option>
+                    <option value="Networking" {% if subject == 'Networking' %}selected{% endif %}>Networking</option>
+                    <option value="Java" {% if subject == 'Java' %}selected{% endif %}>Java</option>
+                    <option value="Environment_and_Ecology" {% if subject == 'Environment_and_Ecology' %}selected{% endif %}>Environment and Ecology</option>
+                    <option value="AI" {% if subject == 'AI' %}selected{% endif %}>AI</option>
+                    <option value="Major_Project" {% if subject == 'Major_Project' %}selected{% endif %}>Major Project</option>
+                    <option value="Seminar_GD" {% if subject == 'Seminar_GD' %}selected{% endif %}>Seminar and GD</option>
+                </select>
+            </div>
+            <div class="w-full lg:w-1/4">
+                <label class="block text-xs font-semibold text-slate-400 mb-2">Select Time Slot</label>
+                <select name="time_slot" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white text-xs font-mono font-medium focus:outline-none focus:border-blue-500">
+                    <option value="09:15 - 10:15" {% if time_slot == '09:15 - 10:15' %}selected{% endif %}>09:15 AM - 10:15 AM</option>
+                    <option value="10:15 - 11:15" {% if time_slot == '10:15 - 11:15' %}selected{% endif %}>10:15 AM - 11:15 AM</option>
+                    <option value="11:15 - 12:15" {% if time_slot == '11:15 - 12:15' %}selected{% endif %}>11:15 AM - 12:15 PM</option>
+                    <option value="12:15 - 01:15" {% if time_slot == '12:15 - 01:15' %}selected{% endif %}>12:15 PM - 01:15 PM</option>
+                    <option value="02:00 - 03:00" {% if time_slot == '02:00 - 03:00' %}selected{% endif %}>02:00 PM - 03:00 PM</option>
+                    <option value="03:00 - 04:00" {% if time_slot == '03:00 - 04:00' %}selected{% endif %}>03:00 PM - 04:00 PM</option>
+                    <option value="04:00 - 05:00" {% if time_slot == '04:00 - 05:00' %}selected{% endif %}>04:00 PM - 05:00 PM</option>
+                </select>
+            </div>
+            <div class="w-full lg:w-1/4">
+                <label class="block text-xs font-semibold text-slate-400 mb-2">Select Date</label>
+                <input type="date" name="date" value="{{ date }}" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-white text-xs font-mono h-[38px] focus:outline-none focus:border-blue-500">
+            </div>
+            <button type="submit" class="w-full lg:w-auto px-6 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg transition-all h-[38px] whitespace-nowrap flex items-center justify-center shadow-md">
+                Load Logs Desk
+            </button>
+        </form>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="p-4 bg-slate-900 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div>
+                <h2 class="text-sm font-bold text-white">Manual Attendance Correction Records</h2>
+                <p class="text-[10px] font-mono text-slate-500 mt-0.5">Scope Matrix: {{ class_name.replace('_', ' ') }} | {{ subject }} | {{ date }}</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="/download_report/{{ class_name }}" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1 shadow-md">
+                    <span class="material-symbols-outlined text-xs">download</span> Download Class Excel (.xlsx)
+                </a>
+                {% if is_editable %}
+                    <span class="px-2 py-0.5 text-[10px] bg-green-500/10 text-green-400 border border-green-500/20 rounded font-bold uppercase tracking-wider">Editor Active</span>
+                {% else %}
+                    <span class="px-2 py-0.5 text-[10px] bg-red-500/10 text-red-400 border border-red-500/20 rounded font-bold uppercase tracking-wider">Locked</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-slate-950 text-slate-400 font-bold uppercase border-b border-slate-800">
+                        <th class="p-3 pl-4">Roll ID</th>
+                        <th class="p-3">Student Name</th>
+                        <th class="p-3">Class Group</th>
+                        <th class="p-3">Time Slot</th>
+                        <th class="p-3">Scan Time</th>
+                        <th class="p-3 text-center">Status</th>
+                        <th class="p-3 pr-4 text-right">Manual Action Override</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/40 text-slate-300 font-medium">
+                    {% for record in records %}
+                    <tr class="hover:bg-slate-800/10">
+                        <td class="p-3 pl-4 font-mono text-blue-400">{{ record[0] }}</td>
+                        <td class="p-3 text-white font-bold">{{ record[1] }}</td>
+                        <td class="p-3 text-slate-500">{{ record[2].replace('_', ' ') }}</td>
+                        <td class="p-3 font-mono font-bold text-slate-400">{% if record[5] %}{{ record[5] }}{% else %}--:--{% endif %}</td>
+                        <td class="p-3 font-mono text-slate-500">{% if record[4] != '--:--:--' %}{{ record[4] }}{% else %}--:--:--{% endif %}</td>
+                        <td class="p-3 text-center">
+                            {% if record[3] == 'Present' %}
+                            <span class="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/20 rounded font-bold text-[10px]">PRESENT</span>
+                            {% else %}
+                            <span class="px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded font-bold text-[10px]">ABSENT</span>
+                            {% endif %}
+                        </td>
+                        <td class="p-3 pr-4 text-right">
+                            {% if is_editable %}
+                                <a href="/toggle_status/{{ record[0] }}/{{ class_name }}/{{ subject }}/{{ date }}/{{ time_slot }}" class="px-2.5 py-1.5 {% if record[3] == 'Present' %}bg-red-950/40 text-red-400 hover:bg-red-600 border-red-900/40{% else %}bg-green-950/40 text-green-400 hover:bg-green-700 border-green-900/40{% endif %} border rounded-lg text-[10px] font-bold transition-all inline-block">
+                                    {% if record[3] == 'Present' %}Mark Absent{% else %}Mark Present{% endif %}
+                                </a>
+                            {% else %}
+                                <span class="px-3 py-1 bg-slate-950 text-slate-600 border border-slate-900 rounded-lg text-[10px] font-bold cursor-not-allowed">Freeze</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

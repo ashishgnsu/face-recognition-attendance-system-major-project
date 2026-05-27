@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-lg">
+        <div>
+            <span class="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-1 rounded-md">{{ roll }}</span>
+            <h1 class="text-2xl font-bold text-white mt-2 tracking-tight">{{ name }}</h1>
+            <p class="text-xs text-slate-400 mt-1">Class Segment Batch: <span class="text-slate-200 font-bold font-mono">{{ class_name.replace('_', ' ') }}</span></p>
+        </div>
+        <div class="sm:border-l sm:border-slate-800 sm:pl-6 flex flex-col">
+            <span class="text-3xl font-bold text-green-400 font-mono">{{ perc }}%</span>
+            <span class="text-[10px] text-slate-500 uppercase tracking-wider font-bold mt-0.5">Total Attendance Status</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block mb-0.5">Total Classes</span>
+            <span class="text-lg font-bold text-white font-mono">{{ total }}</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block mb-0.5">Total Present</span>
+            <span class="text-lg font-bold text-green-400 font-mono">{{ present }}</span>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl col-span-2 sm:col-span-1">
+            <span class="text-[10px] text-slate-500 font-bold uppercase block mb-0.5">Total Absent</span>
+            <span class="text-lg font-bold text-red-400 font-mono">{{ total - present }}</span>
+        </div>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden shadow-lg">
+        <div class="p-4 bg-slate-900 border-b border-slate-800">
+            <h2 class="text-xs font-bold uppercase text-slate-400">Personal Log Ledger Timeline</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                    <tr class="bg-slate-950 text-slate-400 font-bold uppercase border-b border-slate-800 font-mono">
+                        <th class="p-3 pl-4">Subject</th>
+                        <th class="p-3">Time Slot</th>
+                        <th class="p-3">Log Date</th>
+                        <th class="p-3">Scan Stamp</th>
+                        <th class="p-3 pr-4 text-right">Computed State</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-800/40 text-slate-300 font-medium">
+                    {% for row in history %}
+                    <tr class="hover:bg-slate-800/10">
+                        <td class="p-3 pl-4 font-bold text-white text-sm">{{ row[0] }}</td>
+                        <td class="p-3 font-mono text-xs text-blue-400 font-bold">{{ row[4] }}</td>
+                        <td class="p-3 font-mono text-slate-400 text-xs">{{ row[1] }}</td>
+                        <td class="p-3 font-mono text-slate-500">{{ row[2] }}</td>
+                        <td class="p-3 pr-4 text-right">
+                            {% if row[3] == 'Present' %}
+                            <span class="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/20 rounded text-[10px] font-bold">Present</span>
+                            {% else %}
+                            <span class="px-2 py-0.5 bg-red-500/10 text-red-400 border border-red-500/20 rounded text-[10px] font-bold">Absent</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="py-12 text-center max-w-3xl mx-auto bg-slate-900/50 border border-slate-800 rounded-2xl p-8 shadow-xl my-10">
+    <h1 class="text-3xl sm:text-4xl font-bold text-white mb-4">Face Recognition Attendance System</h1>
+    <p class="text-slate-400 text-sm sm:text-base mb-8">Welcome to the automated face attendance portal. Please choose your option below to proceed.</p>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+        <a href="/register" class="flex flex-col items-center justify-center p-6 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-blue-500 text-3xl mb-2">person_add</span>
+            <span class="font-semibold text-sm text-white">Student Registration</span>
+        </a>
+        <a href="/dashboard" class="flex flex-col items-center justify-center p-6 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-green-500 text-3xl mb-2">bar_chart</span>
+            <span class="font-semibold text-sm text-white">Student Dashboard</span>
+        </a>
+        <a href="/view_timetable" class="flex flex-col items-center justify-center p-6 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl transition-all">
+            <span class="material-symbols-outlined text-purple-500 text-3xl mb-2">calendar_today</span>
+            <span class="font-semibold text-sm text-white">View Timetable</span>
+        </a>
+    </div>
+</div>
+{% endblock %}
