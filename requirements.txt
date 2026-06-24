@@ -7,3 +7,4 @@ dlib
 flask
 openpyxl
 pandas
+gunicorn
