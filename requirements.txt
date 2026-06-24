@@ -1,9 +1,9 @@
 numpy==1.26.4
-opencv-python==4.8.0.74
+opencv-python-headless>=4.8.0.74
 Pillow>=10.0.0
-face_recognition==1.3.0
-dlib
 flask
 openpyxl
 pandas
 gunicorn
+https://github.com/zandev/dlib-wheels/raw/master/dlib-19.22.99-cp311-cp311-linux_x86_64.whl
+face_recognition==1.3.0
