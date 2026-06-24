@@ -6,14 +6,14 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
     libgstreamer1.0-0 \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Step 3: Working directory set karna
 WORKDIR /app
 
-# Step 4: Sabse pehle requirements copy aur install karna (taaki cache bana rahe)
+# Step 4: Sabse pehle requirements copy aur install karna
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
