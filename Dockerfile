@@ -1,9 +1,9 @@
 # Python 3.10 slim version use karenge
 FROM python:3.10-slim
 
-# Sirf opencv aur image processing ke liye zaroori minimal system libraries
+# Naye Debian version ke hisab se updated graphics package name
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
@@ -15,7 +15,7 @@ COPY requirements.txt .
 # requirements.txt ke packages install karein
 RUN pip install --no-cache-dir -r requirements.txt
 
-# YAHAN HAI TRICK: Compiled dlib aur face_recognition direct install karenge
+# Pre-compiled dlib aur face_recognition direct install karenge
 RUN pip install --no-cache-dir dlib-bin face_recognition
 
 # Project ka baki code copy karein
