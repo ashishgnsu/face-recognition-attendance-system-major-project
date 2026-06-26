@@ -1,28 +1,24 @@
-# Python 3.10 image use karein (Kyunki aapka system Python 3.10 par hai)
+# Python 3.10 slim version use karenge
 FROM python:3.10-slim
 
-# Linux ke zaroori tools aur C++ compiler install karein dlib ke liye
+# Sirf opencv aur image processing ke liye zaroori minimal system libraries
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    cmake \
-    libopenblas-dev \
-    liblapack-dev \
-    libx11-dev \
-    libgtk-3-dev \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Work directory set karein
 WORKDIR /app
 
-# Sabse pehle requirements copy aur install karein
+# Sabse pehle requirements copy karein
 COPY requirements.txt .
+
+# requirements.txt ke packages install karein
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Ab dlib aur face_recognition install karein (bina wheel file ke)
-RUN pip install --no-cache-dir dlib face_recognition
+# YAHAN HAI TRICK: Compiled dlib aur face_recognition direct install karenge
+RUN pip install --no-cache-dir dlib-bin face_recognition
 
-# Pura project code copy karein
+# Project ka baki code copy karein
 COPY . .
 
-# Gunicorn ke zariye Flask app ko run karein
 CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
