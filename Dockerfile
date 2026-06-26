@@ -1,22 +1,28 @@
-# Step 1: AI/Data Science ki pre-built image use karna jisme dlib, cmake sab pehle se hai
-FROM datamachines/cudagl-tensorflow-opencv:11.4.2-2.7.0-gpu-ubuntu20.04
+# Python 3.10 image use karein (Kyunki aapka system Python 3.10 par hai)
+FROM python:3.10-slim
 
-# Step 2: Set working directory
+# Linux ke zaroori tools aur C++ compiler install karein dlib ke liye
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-dev \
+    liblapack-dev \
+    libx11-dev \
+    libgtk-3-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Work directory set karein
 WORKDIR /app
 
-# Step 3: Python default setup aur pip upgrade
-RUN apt-get update && apt-get install -y python3-pip && \
-    pip3 install --no-cache-dir --upgrade pip
-
-# Step 4: Requirements copy aur baki bache packages install karna
+# Sabse pehle requirements copy aur install karein
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Step 5: Python bindings aur face_recognition setup
-RUN pip3 install --no-cache-dir face_recognition
+# Ab dlib aur face_recognition install karein (bina wheel file ke)
+RUN pip install --no-cache-dir dlib face_recognition
 
-# Step 6: Code copy karna
+# Pura project code copy karein
 COPY . .
 
-# Step 7: App run gunicorn ke sath
+# Gunicorn ke zariye Flask app ko run karein
 CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
